@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   thinking.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: memillet <memillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/09 00:50:29 by memillet          #+#    #+#             */
-/*   Updated: 2026/03/11 15:27:08 by memillet         ###   ########.fr       */
+/*   Created: 2026/03/09 16:44:18 by memillet          #+#    #+#             */
+/*   Updated: 2026/03/11 15:12:55 by memillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int ac, char **av)
+bool	ft_think(t_philo *philo)
 {
-    t_data  *data;
-
-	if (ac == 5 || ac == 6)
-    {
-        data = malloc(sizeof(t_data));
-        if (!data)
-            return (1);
-        parsing(data, ac, av);
-        thread(data);
-        free(data->philo);
-        free(data->forks);
-        free(data);
-    }
-    else
-        printf("Invalide number of arguments\n");
-    return (0);
+	pthread_mutex_lock(&philo->info->mutex);
+	if (philo->info->dead != 0)
+		return (pthread_mutex_unlock(&philo->info->mutex), false);
+	printf("%2lld Philo%d is thinking\n",get_time(), philo->id);
+	pthread_mutex_unlock(&philo->info->mutex);
+	return (true);
 }

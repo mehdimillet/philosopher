@@ -6,7 +6,7 @@
 /*   By: memillet <memillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:31:10 by memillet          #+#    #+#             */
-/*   Updated: 2026/03/05 17:35:39 by memillet         ###   ########.fr       */
+/*   Updated: 2026/03/11 13:21:08 by memillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ long	ft_atol(const char *nptr)
 		i++;
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
-		if (result > LONG_MAX / 10)
+		if (result > INT_MAX / 10)
 			return(0);
 		result = (result * 10) + (nptr[i] - '0');
 		i++;
@@ -59,3 +59,15 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
+long long	get_time()
+{
+	struct timeval tv;
+	int				i;
+	long long		ms_time;
+
+	i = gettimeofday(&tv, NULL);
+	if (i == -1)
+		return (printf("Time error\n"), -1);
+	ms_time = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return (ms_time);
+}
