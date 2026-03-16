@@ -6,12 +6,26 @@
 /*   By: memillet <memillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 12:08:19 by memillet          #+#    #+#             */
-/*   Updated: 2026/03/11 15:33:14 by memillet         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:47:56 by memillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <unistd.h>
+
+static void	ft_is_full(t_data *data)
+{
+	pthread_mutex_lock(&data->mutex);
+	data->dead = 1;
+	pthread_mutex_unlock(&data->mutex);
+}
+
+static void	ft_is_dead(t_data *data, int i)
+{
+	data->dead = 1;
+	printf("%2lld Philo%d is dead\n",(get_time() - data->t_start) ,data->philo[i].id);
+	pthread_mutex_unlock(&data->mutex);
+}
 
 static void	ft_have_tmp(t_philo *philo, long long *tmp, int *n_eat)
 {
@@ -26,6 +40,8 @@ void	*routine(void *arg)
 	t_philo *philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		usleep(philo->info->t_eat * 1000);
 	while (1)
 	{
 		if (ft_eat(philo) != true)
@@ -53,24 +69,18 @@ void	*monitor_routine(void *arg)
 		i = 0;
 		while(i < data->nb_philo)
 		{
-			printf("full = %d\n", full);
 			ft_have_tmp(&data->philo[i], &tmp, &n_eat);
 			pthread_mutex_lock(&data->mutex);
 			if (tmp > data->t_die)
-			{
-				data->dead = 1;
-				printf("%2lld Philo%d is dead\n",get_time() ,data->philo[i].id);
-				pthread_mutex_unlock(&data->mutex);
-				return (NULL);
-			}
-			if ((data->nb_eat != -1))
+				return (ft_is_dead(data, i) ,NULL);
+			if ((data->nb_eat != -1) && n_eat >= data->nb_eat)
 				full++;
 			pthread_mutex_unlock(&data->mutex);
 			i++;
 		}
 		if (full == data->nb_philo)
-			return (NULL);
-		usleep(10);
+			return (ft_is_full(data) ,NULL);
+		usleep(100);
 	}
 	return (NULL);
 }
@@ -97,9 +107,9 @@ void	thread(t_data *data)
 		error = pthread_join(data->philo[i].thread_id, NULL);
 		if (error != 0)
 			return ;
-		error = pthread_join(data->monitor, NULL);
-		if (error != 0)
-			return ;
 		i++;
 	}
+	error = pthread_join(data->monitor, NULL);
+	if (error != 0)
+		return ;
 }

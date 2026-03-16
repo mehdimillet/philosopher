@@ -6,7 +6,7 @@
 /*   By: memillet <memillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:31:10 by memillet          #+#    #+#             */
-/*   Updated: 2026/03/11 13:21:08 by memillet         ###   ########.fr       */
+/*   Updated: 2026/03/16 10:24:10 by memillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,16 @@ long long	get_time()
 		return (printf("Time error\n"), -1);
 	ms_time = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 	return (ms_time);
+}
+
+int	check_death(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->mutex);
+	if (philo->info->dead != 0)
+	{
+		pthread_mutex_unlock(&philo->info->mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->info->mutex);
+	return (0);
 }

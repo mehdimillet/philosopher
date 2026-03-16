@@ -53,6 +53,7 @@ typedef struct s_philo
 
 int			ft_isdigit(char *str);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			check_death(t_philo *philo);
 long		ft_atol(const char *nptr);
 long long	get_time();
 

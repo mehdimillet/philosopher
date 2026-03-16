@@ -1,0 +1,7 @@
+erreur quand time to sleep trop grand (arthur a parler d'une fonction betterusleep) le philo die met sa continue a boucler 
+
+erreur segfault dans le parsing
+
+erreur de valgrind (conditional jump etc)
+
+finir la norme
