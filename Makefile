@@ -6,13 +6,14 @@ SOURCES = src/philo.c \
 			src/thread/thread.c \
 			src/thread/eating.c \
 			src/thread/sleeping.c \
-			src/thread/thinking.c
+			src/thread/thinking.c \
+			src/thread/utils_thread.c
 
 OBJS_DIR = objs
 OBJECTS = $(SOURCES:src/%.c=$(OBJS_DIR)/%.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 -Iheaders
+CFLAGS = -Wall -Wextra -Werror -Iheaders
 RM = rm -rf
 
 GREEN = \033[1;32m

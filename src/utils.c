@@ -6,7 +6,7 @@
 /*   By: memillet <memillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:31:10 by memillet          #+#    #+#             */
-/*   Updated: 2026/03/16 10:24:10 by memillet         ###   ########.fr       */
+/*   Updated: 2026/03/19 10:20:48 by memillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,26 @@ long	ft_atol(const char *nptr)
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		if (result > INT_MAX / 10)
-			return(0);
+			return (0);
 		result = (result * 10) + (nptr[i] - '0');
 		i++;
 	}
 	return (result);
 }
-	
+
 int	ft_isdigit(char *str)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (str[i])
+	i = 0;
+	while (str[i])
 	{
-        if (str[i] >= '0' && str[i] <= '9')
-		    i++;
-    	else
-	    	return (1);
-    }
-    return (0);
+		if (str[i] >= '0' && str[i] <= '9')
+			i++;
+		else
+			return (1);
+	}
+	return (0);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -59,9 +59,9 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-long long	get_time()
+long long	get_time(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
 	int				i;
 	long long		ms_time;
 
